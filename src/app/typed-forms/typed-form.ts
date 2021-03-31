@@ -7,7 +7,6 @@ import {
   FormControl,
   FormGroup,
   ValidatorFn,
-  Validators,
 } from '@angular/forms';
 
 interface FormOperationOptions {
@@ -17,7 +16,7 @@ interface FormOperationOptions {
   emitViewToModelChange?: boolean;
 }
 
-class TypedFormControl<T> extends FormControl {
+export class TypedFormControl<T> extends FormControl {
   constructor(
     readonly formState: T,
     validator?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
@@ -39,7 +38,7 @@ class TypedFormControl<T> extends FormControl {
   }
 }
 
-interface FormConfig<T> {
+export interface FormConfig<T> {
   controls: {
     [P in keyof T]:
       | T[P]
@@ -54,7 +53,7 @@ interface FormConfig<T> {
   asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null;
 }
 
-abstract class TypedFormGroup<T> extends FormGroup {
+export abstract class TypedFormGroup<T> extends FormGroup {
   protected constructor(
     { controls, validatorOrOpts, asyncValidator }: FormConfig<T>,
     fb = new FormBuilder()
@@ -86,83 +85,3 @@ abstract class TypedFormGroup<T> extends FormGroup {
     return this.get(name) as FormArray;
   }
 }
-
-const required = Validators.required;
-const min = (length: number) => Validators.minLength(length);
-const max = (length: number) => Validators.maxLength(length);
-const length = (length: number) => [min(length), max(length)];
-
-type State = 'OH' | 'IN' | 'MI';
-
-interface Address {
-  addressLine1: string;
-  city: string;
-  state: State;
-  postalCode: number;
-}
-interface MailingAddress extends Address {
-  addressLine2?: string;
-}
-
-export class AddressForm extends TypedFormGroup<MailingAddress> {
-  readonly addressLine1 = this.getFormControl('addressLine1');
-  readonly city = this.getFormControl('city');
-  readonly state = this.getFormControl('state');
-  readonly postalCode = this.getFormControl('postalCode');
-
-  constructor(readonly model: MailingAddress, fb = new FormBuilder()) {
-    super({
-      controls: {
-        addressLine1: [model.addressLine1, required],
-        city: [model.city, required],
-        state: [model.state, [required, ...length(2)]],
-        postalCode: [model.postalCode, [required, ...length(5)]],
-      },
-    });
-
-    if (!!model.addressLine2) {
-      this.addTypedControl('addressLine2', fb.control(model.addressLine2));
-    }
-  }
-}
-
-// interface Address {
-//   addressLine1: string;
-//   city: string;
-//   state: State;
-//   postalCode: number;
-// }
-// interface MailingAddress extends Address {
-//   addressLine2?: string;
-// }
-
-// export class AddressForm<T = {}> extends TypedFormGroup<Address & T> {
-//   readonly addressLine1 = this.getFormControl('addressLine1');
-//   readonly city = this.getFormControl('city');
-//   readonly state = this.getFormControl('state');
-//   readonly postalCode = this.getFormControl('postalCode');
-
-//   constructor(readonly model: Address & T) {
-//     super({
-//       controls: {
-//         addressLine1: model.addressLine1,
-//         city: model.city,
-//         state: model.state,
-//         postalCode: model.postalCode,
-//       },
-//     });
-
-//     this.addressLine1.setValidators(required);
-//     this.city.setValidators(required);
-//     this.state.setValidators([required, ...length(2)]);
-//     this.postalCode.setValidators(length(5));
-//   }
-// }
-
-// class MailingAddressForm extends AddressForm<MailingAddress> {
-//   readonly addressLine2 = this.getFormControl('addressLine2');
-
-//   constructor(model: MailingAddress) {
-//     super(model);
-//   }
-// }
