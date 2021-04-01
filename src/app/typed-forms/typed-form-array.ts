@@ -11,4 +11,28 @@ export class TypedFormArray<T> extends FormArray {
   pushTyped(control: TypedAbstractControl<T>): void {
     this.push(control);
   }
+
+  insertTyped(index: number, control: TypedAbstractControl<T>): void {
+    this.insert(index, control);
+  }
+
+  setTypedControl(index: number, control: TypedAbstractControl<T>): void {
+    this.setControl(index, control);
+  }
+
+  setTypedValue(value: T[], options: Partial<FormOperationOptions>): void {
+    this.setValue(value, options);
+  }
+
+  patchTypedValue(value: T[], options: Partial<FormOperationOptions>): void {
+    this.patchValue(value, options);
+  }
+
+  typedReset(value: T[], options: Partial<FormOperationOptions>): void {
+    this.reset(value, options);
+  }
+
+  getTypedRawValue(): T[] {
+    return this.getRawValue() as T[];
+  }
 }

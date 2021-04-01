@@ -15,15 +15,15 @@ export class TypedFormControl<T> extends FormControl {
     super(validator, asyncValidator);
   }
 
-  patchTypedValue(value: T, options?: FormOperationOptions): void {
+  setTypedValue(value: T, options?: Partial<FormOperationOptions>): void {
+    this.setValue(value, options);
+  }
+
+  patchTypedValue(value: T, options?: Partial<FormOperationOptions>): void {
     this.patchValue(value, options);
   }
 
-  typedReset(value?: T, options?: FormOperationOptions): void {
+  typedReset(value?: T, options?: Partial<FormOperationOptions>): void {
     this.reset(value, options);
-  }
-
-  setTypedValue(value: T, options?: FormOperationOptions): void {
-    this.setValue(value, options);
   }
 }
