@@ -12,12 +12,8 @@ import { TypedFormArray } from './typed-form-array';
 import { TypedFormControl } from './typed-form-control';
 
 export class TypedFormGroup<T> extends FormGroup {
-  constructor(
-    { controls, validatorOrOpts, asyncValidator }: FormConfig<T>,
-    fb = new FormBuilder()
-  ) {
-    const group = fb.group(controls);
-    super(group.controls, validatorOrOpts, asyncValidator);
+  constructor({ controls }: FormConfig<T>, fb = new FormBuilder()) {
+    super(fb.group(controls).controls);
   }
 
   getTyped(name: Extract<keyof T, string>): TypedAbstractControl<T> | null {
