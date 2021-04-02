@@ -18,9 +18,9 @@ export class TypedFormBuilder<T> extends FormBuilder {
     formState?: Partial<T> | null,
     validator?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
     asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
-  ): TypedFormControl<Partial<T>> {
-    return new TypedFormControl<Partial<T>>(
-      formState as Partial<T>,
+  ): TypedFormControl<T[keyof T]> {
+    return new TypedFormControl<T[keyof T]>(
+      formState as T[keyof T],
       validator,
       asyncValidator
     );
