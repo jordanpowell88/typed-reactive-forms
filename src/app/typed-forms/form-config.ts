@@ -3,14 +3,19 @@ import {
   AsyncValidatorFn,
   ValidatorFn,
 } from '@angular/forms';
+import { TypedFormArray } from './typed-form-array';
+import { TypedFormGroup } from './typed-form-group';
 
 export interface FormConfig<T> {
   controls: {
     [P in keyof T]:
-      | T[P]
-      | [T[P], ValidatorFn | ValidatorFn[] | null]
+      | (T[P] | TypedFormGroup<T[P]> | TypedFormArray<T[P]>)
       | [
-          T[P],
+          T[P] | TypedFormGroup<T[P]> | TypedFormArray<T[P]>,
+          ValidatorFn | ValidatorFn[] | null
+        ]
+      | [
+          T[P] | TypedFormGroup<T[P]> | TypedFormArray<T[P]>,
           ValidatorFn | ValidatorFn[] | null,
           AsyncValidatorFn | AsyncValidatorFn[] | null
         ];
