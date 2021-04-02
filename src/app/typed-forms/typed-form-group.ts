@@ -33,8 +33,8 @@ export class TypedFormGroup<T> extends FormGroup {
 
   addTypedControl(
     name: Extract<keyof T, string>,
-    // control: TypedAbstractControl<Partial<T>>
-    control: TypedFormControl<Partial<T>>
+    // control: TypedAbstractControl<T[keyof T]>
+    control: TypedFormControl<T[keyof T]>
   ): void {
     this.addControl(name, control);
   }
@@ -73,14 +73,14 @@ export class TypedFormGroup<T> extends FormGroup {
   // MY HELPERs
   getControl(
     name: Extract<keyof T, string>
-  ): TypedAbstractControl<T> | AbstractControl {
-    return this.get(name) as TypedAbstractControl<T>;
+  ): TypedAbstractControl<T[keyof T]> | AbstractControl {
+    return this.get(name) as TypedAbstractControl<T[keyof T]>;
   }
 
   getFormControl(
     name: Extract<keyof T, string>
-  ): TypedFormControl<T> | FormControl {
-    return this.get(name) as TypedFormControl<T>;
+  ): TypedFormControl<T[keyof T]> | FormControl {
+    return this.get(name) as TypedFormControl<T[keyof T]>;
   }
 
   getFormGroup<K extends keyof T>(

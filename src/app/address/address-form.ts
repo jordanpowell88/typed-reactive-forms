@@ -34,9 +34,5 @@ export class AddressForm extends TypedFormGroup<IAddressForm> {
     });
 
     this.addTypedControl('addressLine2', fb.control(null, required));
-    this.addTypedControl(
-      'addressLine2',
-      new TypedFormControl<IAddressForm>(null, required)
-    );
   }
 }
