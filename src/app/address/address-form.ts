@@ -21,7 +21,7 @@ export class AddressForm extends TypedFormGroup<IAddressForm> {
 
   constructor(
     readonly model: Address,
-    fb = new TypedFormBuilder<IAddressForm>()
+    private readonly fb = new TypedFormBuilder<IAddressForm>()
   ) {
     super({
       controls: {
@@ -33,6 +33,10 @@ export class AddressForm extends TypedFormGroup<IAddressForm> {
       },
     });
 
-    this.addTypedControl('addressLine2', fb.control(null, required));
+    // this.addTypedControl('addressLine2', fb.control(null, required));
+  }
+
+  addAddressLine2(): void {
+    this.addTypedControl('addressLine2', this.fb.control(null, required));
   }
 }
