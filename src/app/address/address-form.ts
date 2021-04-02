@@ -4,6 +4,7 @@ import {
   TypedFormControl,
   TypedFormGroup,
 } from '../typed-forms';
+import { TypedAbstractControl } from '../typed-forms/typed-abstract-control';
 import { required, length } from '../validations/validations';
 import { Address } from './address';
 
@@ -33,6 +34,9 @@ export class AddressForm extends TypedFormGroup<IAddressForm> {
     });
 
     this.addTypedControl('addressLine2', fb.control(null, required));
-    // this.addTypedControl('addressLine2', new TypedFormControl(null, required));
+    this.addTypedControl(
+      'addressLine2',
+      new TypedFormControl<IAddressForm>(null, required)
+    );
   }
 }

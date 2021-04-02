@@ -8,7 +8,7 @@ import { FormOperationOptions } from './form-operation-options';
 
 export class TypedFormControl<T> extends FormControl {
   constructor(
-    readonly formState: T,
+    readonly formState?: T | null,
     validator?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
     asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
   ) {

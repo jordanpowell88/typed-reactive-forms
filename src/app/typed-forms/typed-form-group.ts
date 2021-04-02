@@ -33,7 +33,8 @@ export class TypedFormGroup<T> extends FormGroup {
 
   addTypedControl(
     name: Extract<keyof T, string>,
-    control: TypedAbstractControl<T>
+    // control: TypedAbstractControl<Partial<T>>
+    control: TypedFormControl<Partial<T>>
   ): void {
     this.addControl(name, control);
   }
@@ -70,15 +71,25 @@ export class TypedFormGroup<T> extends FormGroup {
   }
 
   // MY HELPERs
-  getControl(name: Extract<keyof T, string>): TypedAbstractControl<T> {
-    return this.getTyped(name) as TypedAbstractControl<T>;
+  getControl(
+    name: Extract<keyof T, string>
+  ): TypedAbstractControl<T> | AbstractControl {
+    return this.get(name) as TypedAbstractControl<T>;
   }
 
-  getFormControl(name: Extract<keyof T, string>): TypedFormControl<T> {
+  getFormControl(
+    name: Extract<keyof T, string>
+  ): TypedFormControl<T> | FormControl {
     return this.get(name) as TypedFormControl<T>;
   }
 
-  getFormArray(name: Extract<keyof T, string>): TypedFormArray<T> {
+  getFormGroup<K extends keyof T>(
+    name: Extract<K, string>
+  ): TypedFormGroup<T[K]> {
+    return this.get(name) as TypedFormGroup<T[K]>;
+  }
+
+  getFormArray(name: Extract<keyof T, string>): TypedFormArray<T> | FormArray {
     return this.get(name) as TypedFormArray<T>;
   }
 }

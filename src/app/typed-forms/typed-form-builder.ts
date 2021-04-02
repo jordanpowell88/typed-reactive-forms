@@ -18,8 +18,12 @@ export class TypedFormBuilder<T> extends FormBuilder {
     formState?: Partial<T> | null,
     validator?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
     asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
-  ): TypedFormControl<T> {
-    return new TypedFormControl<T>(formState as T, validator, asyncValidator);
+  ): TypedFormControl<Partial<T>> {
+    return new TypedFormControl<Partial<T>>(
+      formState as Partial<T>,
+      validator,
+      asyncValidator
+    );
   }
 
   group(config: FormConfig<T>): TypedFormGroup<T> {
